@@ -1,35 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Cellenza.MyFirst.Domain;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cellenza.MyFirst.Api.Controllers
 {
-    [Route("v1/client")]
-    public class ClientController : Controller
+    [Route("client")]
+    [Route("v2/client")]
+    public class ClientV2Controller : Controller
     {
         private readonly ClientDomain clientDomain;
 
-        public ClientController(ClientDomain clientDomain)
+        public ClientV2Controller(ClientDomain clientDomain)
         {
             this.clientDomain = clientDomain;
         }
 
         // GET api/values
         [HttpGet]
-        public IEnumerable<ClientDto> Get()
+        public IEnumerable<ClientV2Dto> Get()
         {
             return this.clientDomain.GetAll().Select(ConvertToDto);
         }
 
-        private ClientDto ConvertToDto(Client arg)
+        private ClientV2Dto ConvertToDto(Client arg)
         {
-            return new ClientDto
+            return new ClientV2Dto
             {
                 Id = arg.Id,
-                Name = arg.DisplayName,
+                DisplayName = arg.DisplayName,
                 Url = ""
             };
         }

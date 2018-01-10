@@ -7,6 +7,6 @@ namespace Cellenza.MyFirst.Domain
         public int Id { get; set; }
 
         [MaxLength(60)]
-        public string Name { get; set; }
+        public string DisplayName { get; set; }
     }
 }
