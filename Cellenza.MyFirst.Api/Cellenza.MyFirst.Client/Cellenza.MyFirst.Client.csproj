@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Pattern.Api" Version="1.4.0-unstable0002" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cellenza.MyFirst.Dto\Cellenza.MyFirst.Dto.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AspNet.Security.OpenIdConnect.Server" Version="2.0.0-rc1-final" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.Design" Version="1.1.5" />
@@ -22,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Cellenza.MyFirst.Domain\Cellenza.MyFirst.Domain.csproj" />
+    <ProjectReference Include="..\Cellenza.MyFirst.Dto\Cellenza.MyFirst.Dto.csproj" />
   </ItemGroup>
 
 </Project>

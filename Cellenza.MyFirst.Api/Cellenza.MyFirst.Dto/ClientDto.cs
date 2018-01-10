@@ -1,4 +1,4 @@
-﻿namespace Cellenza.MyFirst.Api.Controllers
+﻿namespace Cellenza.MyFirst.Dto
 {
     public class ClientDto
     {
