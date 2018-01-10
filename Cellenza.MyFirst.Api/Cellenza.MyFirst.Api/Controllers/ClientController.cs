@@ -2,18 +2,36 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Cellenza.MyFirst.Domain;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cellenza.MyFirst.Api.Controllers
 {
     [Route("api/[controller]")]
-    public class ValuesController : Controller
+    public class ClientController : Controller
     {
+        private readonly ClientDomain clientDomain;
+
+        public ClientController(ClientDomain clientDomain)
+        {
+            this.clientDomain = clientDomain;
+        }
+
         // GET api/values
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<ClientDto> Get()
         {
-            return new string[] { "value1", "value2" };
+            return this.clientDomain.GetAll().Select(ConvertToDto);
+        }
+
+        private ClientDto ConvertToDto(Client arg)
+        {
+            return new ClientDto
+            {
+                Id = arg.Id,
+                Name = arg.Name,
+                Url = ""
+            };
         }
 
         // GET api/values/5
@@ -40,5 +58,15 @@ namespace Cellenza.MyFirst.Api.Controllers
         public void Delete(int id)
         {
         }
+    }
+
+    public class ClientDto
+    {
+        public int Id { get; set; }
+
+        public string Name { get; set; }
+
+
+        public string Url { get; set; }
     }
 }
