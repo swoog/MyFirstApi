@@ -2,39 +2,18 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Cellenza.MyFirst.Dto;
-using Pattern.Api;
 
 namespace Cellenza.MyFirst.Client
 {
-    public class ClientConfig
+    public class ClientApi : AuthMyFirstBaseApi, IClientApi
     {
-        public string BaseUri { get; set; }
-    }
-
-    public class MyFirstBaseApi : BaseApi
-    {
-        private readonly ClientConfig config;
-
-        public MyFirstBaseApi(ClientConfig config)
-        {
-            this.config = config;
-        }
-
-        protected override string GetBaseUrl()
-        {
-            return this.config.BaseUri;
-        }
-    }
-
-    public class ClientApi : MyFirstBaseApi, IClientApi
-    {
-        public ClientApi(ClientConfig config) : base(config)
+        public ClientApi(ClientConfig config, AuthConfig authConfig) : base(config, authConfig)
         {
         }
 
-        public Task<List<ClientDto>> GetAll()
+        public Task<List<ClientV2Dto>> GetAll()
         {
-            return this.GetAsync<List<ClientDto>>("/v1/client/");
+            return this.GetAsync<List<ClientV2Dto>>("/v2/client/");
         }
     }
 }

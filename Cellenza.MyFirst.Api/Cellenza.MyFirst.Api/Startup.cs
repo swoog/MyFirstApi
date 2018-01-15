@@ -53,6 +53,7 @@ namespace Cellenza.MyFirst.Api
                     o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                     o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 })
+                // Autnentification Client
                 .AddJwtBearer(o =>
                 {
                     o.Configuration = new OpenIdConnectConfiguration();
@@ -60,6 +61,7 @@ namespace Cellenza.MyFirst.Api
                     o.TokenValidationParameters.ValidIssuer = Configuration["Settings:Url"];
                     o.Configuration.SigningKeys.Add(new X509SecurityKey(x509Certificate2));
                 })
+                // Authentification Server
                 .AddOpenIdConnectServer(o =>
                 {
                     o.AccessTokenHandler = new JwtSecurityTokenHandler

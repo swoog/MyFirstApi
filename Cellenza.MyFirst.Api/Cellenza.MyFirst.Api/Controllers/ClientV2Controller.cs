@@ -2,12 +2,14 @@
 using System.Linq;
 using Cellenza.MyFirst.Domain;
 using Cellenza.MyFirst.Dto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cellenza.MyFirst.Api.Controllers
 {
     [Route("client")]
     [Route("v2/client")]
+    [Authorize()]
     public class ClientV2Controller : Controller
     {
         private readonly ClientDomain clientDomain;

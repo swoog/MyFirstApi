@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Cellenza.MyFirst.Api.Controllers
 {
     [Route("v1/client")]
-    //[Authorize("client.read")]
+    [Authorize()]
     public class ClientController : Controller
     {
         private readonly ClientDomain clientDomain;
@@ -46,7 +46,6 @@ namespace Cellenza.MyFirst.Api.Controllers
 
         // POST api/values
         [HttpPost]
-        //[Authorize("client.write")]
         public void Post([FromBody]string value)
         {
         }
