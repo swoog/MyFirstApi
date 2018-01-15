@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using Cellenza.MyFirst.Domain;
 using Cellenza.MyFirst.Dto;
 using Microsoft.AspNetCore.Authorization;
@@ -13,17 +14,19 @@ namespace Cellenza.MyFirst.Api.Controllers
     public class ClientV2Controller : Controller
     {
         private readonly ClientDomain clientDomain;
+        private readonly IUserIdentity userIdentity;
 
-        public ClientV2Controller(ClientDomain clientDomain)
+        public ClientV2Controller(ClientDomain clientDomain, IUserIdentity userIdentity)
         {
             this.clientDomain = clientDomain;
+            this.userIdentity = userIdentity;
         }
 
         // GET api/values
         [HttpGet]
         public IEnumerable<ClientV2Dto> Get()
         {
-            return this.clientDomain.GetAll().Select(ConvertToDto);
+            return this.clientDomain.GetAllFor(this.userIdentity.Get(this).Name).Select(ConvertToDto);
         }
 
         private ClientV2Dto ConvertToDto(Client arg)
@@ -45,8 +48,9 @@ namespace Cellenza.MyFirst.Api.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public ClientV2Dto Post([FromBody]string displayName)
         {
+            return ConvertToDto(this.clientDomain.Save(this.userIdentity.Get(this).Name, displayName));
         }
 
         // PUT api/values/5
@@ -59,6 +63,19 @@ namespace Cellenza.MyFirst.Api.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+        }
+    }
+
+    public interface IUserIdentity
+    {
+        ClaimsIdentity Get(Controller controller);
+    }
+
+   public class UserIdentity : IUserIdentity
+    {
+        public ClaimsIdentity Get(Controller controller)
+        {
+            return (ClaimsIdentity) controller.User.Identity;
         }
     }
 }

@@ -18,5 +18,20 @@ namespace Cellenza.MyFirst.Domain
             return this.db.Clients.ToList();
         }
 
+        public Client Save(string userLogin, string displayName)
+        {
+            var client = new Client();
+            client.DisplayName = displayName;
+            client.UserLogin = userLogin;
+            this.db.Clients.Add(client);
+            this.db.SaveChanges();
+
+            return client;
+        }
+
+        public IEnumerable<Client> GetAllFor(string name)
+        {
+            return this.db.Clients.Where(c => c.UserLogin == name).ToList();
+        }
     }
 }

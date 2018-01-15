@@ -8,5 +8,7 @@ namespace Cellenza.MyFirst.Domain
 
         [MaxLength(60)]
         public string DisplayName { get; set; }
+
+        public string UserLogin { get; set; }
     }
 }
