@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using AspNet.Security.OpenIdConnect.Extensions;
 using AspNet.Security.OpenIdConnect.Primitives;
 using AspNet.Security.OpenIdConnect.Server;
+using Cellenza.MyFirst.Api.Controllers;
 using Cellenza.MyFirst.Domain;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -78,6 +79,7 @@ namespace Cellenza.MyFirst.Api
                 });
 
             services.AddScoped<ClientDomain>();
+            services.AddScoped<IUserIdentity, UserIdentity>();
 
             services.AddSwaggerGen(c =>
             {

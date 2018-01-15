@@ -11,9 +11,10 @@ using System;
 namespace Cellenza.MyFirst.Domain.Migrations
 {
     [DbContext(typeof(MyFirstDbContext))]
-    partial class MyFirstDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180115143255_AddUserLogin")]
+    partial class AddUserLogin
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
