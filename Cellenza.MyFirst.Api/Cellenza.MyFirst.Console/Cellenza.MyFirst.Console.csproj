@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Ninject" Version="4.0.0-beta-0134" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Cellenza.MyFirst.Client\Cellenza.MyFirst.Client.csproj" />
     <ProjectReference Include="..\Cellenza.MyFirst.Dto\Cellenza.MyFirst.Dto.csproj" />
   </ItemGroup>

@@ -1,6 +1,6 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Cellenza.MyFirst.Client;
+using Ninject;
 
 namespace Cellenza.MyFirst.Console
 {
@@ -8,32 +8,25 @@ namespace Cellenza.MyFirst.Console
     {
         static void Main(string[] args)
         {
-            Task.WaitAll(ShowClients());
+            var kernel = new StandardKernel();
 
-            System.Console.ReadLine();
-        }
-
-        public static async Task ShowClients()
-        {
-            var clientConfig = new ClientConfig
+            kernel.Bind<ClientConfig>().ToMethod(c => new ClientConfig()
             {
                 BaseUri = "https://localhost:44392/"
-            };
+            }).InSingletonScope();
 
-            System.Console.WriteLine($"Authenticate...");
-            var auth = new AuthApi(clientConfig);
+            kernel.Bind<IAuthApi>().To<AuthApi>();
+            kernel.Bind<IFileLogger>().To<FileLogger>();
+            kernel.Bind<AuthConfig>().To<AuthConfig>()
+                .InSingletonScope();
+            kernel.Bind<IClientApi>().To<ClientApi>();
+            kernel.Bind<ClientsLogger>().To<ClientsLogger>();
 
-            var token = await auth.Connect("aurelien", "12345");
+            var clientsLogger = kernel.Get<ClientsLogger>();
 
-            var authConfig = new AuthConfig {AccessToken = token.AccessToken};
+            Task.WaitAll(clientsLogger.LogClients());
 
-            System.Console.WriteLine($"Authenticate Done");
-            var client = new ClientApi(clientConfig, authConfig);
-
-            foreach (var clientDto in (await client.GetAll()))
-            {
-                System.Console.WriteLine($"DisplayName:{clientDto.DisplayName}");
-            }
+            System.Console.ReadLine();
         }
     }
 }
