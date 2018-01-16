@@ -9,6 +9,7 @@ using AspNet.Security.OpenIdConnect.Extensions;
 using AspNet.Security.OpenIdConnect.Primitives;
 using AspNet.Security.OpenIdConnect.Server;
 using Cellenza.MyFirst.Api.Controllers;
+using Cellenza.MyFirst.Api.Infrastructures;
 using Cellenza.MyFirst.Domain;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -40,6 +41,10 @@ namespace Cellenza.MyFirst.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<CellenzaMemoryCache>();
+            services.AddSingleton<RedisCache>();
+            services.AddSingleton<ICache, CompositeCache>();
+
             services.AddScoped<DatabaseConfig>();
 
             services.AddDbContext<MyFirstDbContext>();
