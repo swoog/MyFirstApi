@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace Cellenza.MyFirst.Domain
 {
@@ -29,9 +30,9 @@ namespace Cellenza.MyFirst.Domain
             return client;
         }
 
-        public IEnumerable<Client> GetAllFor(string name)
+        public IEnumerable<Client> GetAllFor<TKey>(string name, int index, int take, Expression<Func<Client, TKey>> sort)
         {
-            return this.db.Clients.Where(c => c.UserLogin == name).ToList();
+            return this.db.Clients.Where(c => c.UserLogin == name).OrderBy(sort).Skip(index).Take(take).ToList();
         }
     }
 }

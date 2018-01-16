@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Security.Claims;
 using Cellenza.MyFirst.Domain;
 using Cellenza.MyFirst.Dto;
@@ -27,9 +29,45 @@ namespace Cellenza.MyFirst.Api.Controllers
 
         // GET api/values
         [HttpGet]
-        public IEnumerable<ClientV2Dto> Get()
+        public IEnumerable<ClientV2Dto> Get(int? index = null, int? take = null, string sort = null)
         {
-            return this.clientDomain.GetAllFor(this.userIdentity.Get(this).Name).Select(ConvertToDto);
+            if (!index.HasValue)
+            {
+                index = 0;
+            }
+
+            if (index < 0)
+            {
+                index = 0;
+            }
+
+            if (!take.HasValue)
+            {
+                take = 20;
+            }
+
+            if (take > 50)
+            {
+                take = 50;
+            }
+
+            if (string.IsNullOrEmpty(sort))
+            {
+                sort = "DisplayName";
+            }
+
+            switch (sort)
+            {
+                case "DisplayName":
+                    return this.clientDomain.GetAllFor(this.userIdentity.Get(this).Name, index.Value, take.Value, c => c.DisplayName)
+                        .Select(ConvertToDto);
+                case "Id":
+                    return this.clientDomain.GetAllFor(this.userIdentity.Get(this).Name, index.Value, take.Value, c=>c.Id)
+                        .Select(ConvertToDto);
+                default:
+                    throw new ArgumentException();
+            }
+
         }
 
         private ClientV2Dto ConvertToDto(Client arg)
