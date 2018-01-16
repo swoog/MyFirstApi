@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <ApplicationInsightsResourceId>/subscriptions/c707365c-e41e-4000-842b-0aefa1c2e854/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/Cellenza.MyFirst.Api</ApplicationInsightsResourceId>
+    <ApplicationInsightsAnnotationResourceId>/subscriptions/c707365c-e41e-4000-842b-0aefa1c2e854/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/Cellenza.MyFirst.Api</ApplicationInsightsAnnotationResourceId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -10,6 +12,7 @@
 
   <ItemGroup>
     <PackageReference Include="AspNet.Security.OpenIdConnect.Server" Version="2.0.0-rc1-final" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.Design" Version="1.1.5" />
@@ -24,6 +27,10 @@
   <ItemGroup>
     <ProjectReference Include="..\Cellenza.MyFirst.Domain\Cellenza.MyFirst.Domain.csproj" />
     <ProjectReference Include="..\Cellenza.MyFirst.Dto\Cellenza.MyFirst.Dto.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services" />
   </ItemGroup>
 
 </Project>

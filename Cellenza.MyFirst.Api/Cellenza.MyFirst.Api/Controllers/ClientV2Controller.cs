@@ -3,6 +3,7 @@ using System.Linq;
 using System.Security.Claims;
 using Cellenza.MyFirst.Domain;
 using Cellenza.MyFirst.Dto;
+using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,11 +14,13 @@ namespace Cellenza.MyFirst.Api.Controllers
     [Authorize()]
     public class ClientV2Controller : Controller
     {
+        private readonly TelemetryClient telemetry;
         private readonly ClientDomain clientDomain;
         private readonly IUserIdentity userIdentity;
 
-        public ClientV2Controller(ClientDomain clientDomain, IUserIdentity userIdentity)
+        public ClientV2Controller(TelemetryClient telemetry, ClientDomain clientDomain, IUserIdentity userIdentity)
         {
+            this.telemetry = telemetry;
             this.clientDomain = clientDomain;
             this.userIdentity = userIdentity;
         }
@@ -50,6 +53,7 @@ namespace Cellenza.MyFirst.Api.Controllers
         [HttpPost]
         public ClientV2Dto Post([FromBody]string displayName)
         {
+            telemetry.TrackEvent("AddClient", new Dictionary<string, string>() { { "name", displayName } });
             return ConvertToDto(this.clientDomain.Save(this.userIdentity.Get(this).Name, displayName));
         }
 
@@ -71,11 +75,11 @@ namespace Cellenza.MyFirst.Api.Controllers
         ClaimsIdentity Get(Controller controller);
     }
 
-   public class UserIdentity : IUserIdentity
+    public class UserIdentity : IUserIdentity
     {
         public ClaimsIdentity Get(Controller controller)
         {
-            return (ClaimsIdentity) controller.User.Identity;
+            return (ClaimsIdentity)controller.User.Identity;
         }
     }
 }
