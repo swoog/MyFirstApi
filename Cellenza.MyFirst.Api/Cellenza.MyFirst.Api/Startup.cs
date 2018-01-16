@@ -188,6 +188,8 @@ namespace Cellenza.MyFirst.Api
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
 
+            app.UseBlobStorage();
+
             app.UseMvc();
         }
     }
