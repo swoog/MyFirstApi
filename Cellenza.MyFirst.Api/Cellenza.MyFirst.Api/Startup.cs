@@ -14,7 +14,6 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -41,7 +40,9 @@ namespace Cellenza.MyFirst.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<MyFirstDbContext>(o => o.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=MyFirstDatabase;Trusted_Connection=True;"));
+            services.AddScoped<DatabaseConfig>();
+
+            services.AddDbContext<MyFirstDbContext>();
 
             var x509Certificate2 = new X509Certificate2(
                 $@"{hostingEnvironment.ContentRootPath}\Agile.pfx",
@@ -169,14 +170,14 @@ namespace Cellenza.MyFirst.Api
 
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, MyFirstDbContext db)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            db.Database.Migrate();
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseHostname();
 
             app.UseAuthentication();
 

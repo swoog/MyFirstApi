@@ -28,11 +28,11 @@ namespace Cellenza.MyFirst.Api.Tests
         {
             var dbContextObtionsBuilder = new DbContextOptionsBuilder<MyFirstDbContext>();
             dbContextObtionsBuilder.UseInMemoryDatabase("MyFirstDatabase" + Guid.NewGuid());
-            myFirstDbContext = new MyFirstDbContext(dbContextObtionsBuilder.Options);
+            myFirstDbContext = new MyFirstDbContext(null);
 
             var clientDomain = new ClientDomain(myFirstDbContext);
             var userIdentity = Substitute.For<IUserIdentity>();
-            this.clientV2Controller = new ClientV2Controller(clientDomain, userIdentity);
+            this.clientV2Controller = new ClientV2Controller(null, clientDomain, userIdentity);
 
             var identity = new ClaimsIdentity("Password", "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name",
                 "http://schemas.microsoft.com/ws/2008/06/identity/claims/role");
